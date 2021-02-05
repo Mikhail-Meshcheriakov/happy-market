@@ -4,9 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="index.js"></script>
@@ -40,7 +43,7 @@
 
     <h3>Список товаров</h3>
     <table class="table table-hover" cellpadding="0" cellspacing="0">
-        <thead>
+        <thead class="table-light">
         <tr>
             <td>Название</td>
             <td>Цена</td>
@@ -78,29 +81,37 @@
         </ul>
     </nav>
 
-    <h3>Корзина</h3>
-    <table class="table table-hover" cellpadding="0" cellspacing="0">
-        <thead>
-        <tr>
-            <td>Название</td>
-            <td>Количество</td>
-            <td>Цена</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="oi in Cart.items">
-            <td>{{oi.productTitle}}</td>
-            <td>{{oi.quantity}}</td>
-            <td>{{oi.quantity + ' x ' + oi.pricePerProduct + ' = ' + oi.price}}</td>
-        </tr>
-        <tr>
-            <td>Итого</td>
-            <td></td>
-            <td>{{Cart.totalPrice}}</td>
-        </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
+    <div ng-if="!Cart.items.length == 0">
+        <h3>Корзина</h3>
+        <table class="table" cellpadding="0" cellspacing="0">
+            <thead class="table-light">
+            <tr>
+                <td>Название</td>
+                <td>Количество</td>
+                <td>Цена</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="oi in Cart.items">
+                <td>{{oi.productTitle}}</td>
+                <td>
+                    <div>
+                        <button class="btn btn-light" ng-click="removeFromCart(oi.id)">-</button>
+                        {{oi.quantity}}
+                        <button class="btn btn-light" ng-click="addToCart(oi.id)">+</button>
+                    </div>
+                </td>
+                <td>{{oi.quantity + ' x ' + oi.pricePerProduct + ' = ' + oi.price}}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+                <td>Итого</td>
+                <td></td>
+                <td>{{Cart.totalPrice}}</td>
+            </tfoot>
+        </table>
+        <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
+    </div>
 
     <h3>Добавить новый товар</h3>
     <form novalidate ng-submit="submitCreateNewProduct()">
@@ -117,5 +128,9 @@
         </div>
     </form>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+
 </body>
 </html>
