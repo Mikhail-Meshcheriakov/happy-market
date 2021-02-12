@@ -9,15 +9,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
     <script src="index.js"></script>
 </head>
 
 <body>
 
 <div class="container" ng-controller="indexController">
-    <div ng-show="authorized">
-        Вы зашли под пользователем: {{username}}
-    </div>
     <h1>Happy Market</h1>
     <div class="mb-3 text-center" ng-show="!authorized">
         <form class="form-signin" ng-submit="tryToAuth()" style="max-width: 350px; padding: 15px; margin: 0 auto;">
@@ -31,6 +29,9 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
             <p class="mt-5 mb-3 text-muted">© GeekBrains 2021</p>
         </form>
+    </div>
+    <div class="mb-3 text-center" ng-show="authorized">
+        <button class="btn btn-danger" ng-click="logout()">Выйти</button>
     </div>
 
     <div ng-show="authorized">
@@ -51,7 +52,7 @@
                 </div>
             </div>
             <div>
-                <button class="btn btn-success" type="submit">Применить</button>
+                <button class="btn btn-primary" type="submit">Применить</button>
             </div>
         </form>
 
@@ -96,39 +97,53 @@
             </ul>
         </nav>
 
-        <div ng-if="!Cart.items.length == 0">
-            <h3>Корзина</h3>
-            <table class="table" cellpadding="0" cellspacing="0">
-                <thead class="table-light">
-                <tr>
-                    <td>Название</td>
-                    <td>Количество</td>
-                    <td>Цена</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="oi in Cart.items">
-                    <td>{{oi.productTitle}}</td>
-                    <td>
-                        <div>
-                            <button class="btn btn-light" ng-click="removeFromCart(oi.productId)">-</button>
-                            {{oi.quantity}}
-                            <button class="btn btn-light" ng-click="addToCart(oi.productId)">+</button>
-                        </div>
-                    </td>
-                    <td>{{oi.quantity + ' x ' + oi.pricePerProduct + ' = ' + oi.price}}</td>
-                </tr>
-                </tbody>
-                <tfoot>
+        <h3>Корзина</h3>
+        <table class="table table-hover" cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+                <td>Название</td>
+                <td>Количество</td>
+                <td>Цена</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="oi in Cart.items">
+                <td>{{oi.productTitle}}</td>
+                <td>{{oi.quantity}}</td>
+                <td>{{oi.quantity + ' x ' + oi.pricePerProduct + ' = ' + oi.price}}</td>
+            </tr>
+            <tr>
                 <td>Итого</td>
                 <td></td>
                 <td>{{Cart.totalPrice}}</td>
-                </tfoot>
-            </table>
-            <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
-            <button class="btn btn-danger" ng-click="saveOrder()">Оформить заказ</button>
-        </div>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" ng-click="createOrder()">Оформить заказ</button>
+        <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
+
+        <h3>Мои заказы</h3>
+        <table class="table table-hover" cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Имя пользователя</td>
+                <td>Цена</td>
+                <td>Дата создания</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="o in MyOrders">
+                <td>#{{o.id}}</td>
+                <td>{{o.username}}</td>
+                <td>{{o.totalPrice}}</td>
+                <td>{{o.creationDateTime}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+
 </div>
 </body>
 </html>

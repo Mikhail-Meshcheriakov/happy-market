@@ -2,14 +2,22 @@ package ru.geekbrains.happy.market.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.happy.market.dto.ProductDto;
+import ru.geekbrains.happy.market.exceptions_handling.MarketError;
 import ru.geekbrains.happy.market.exceptions_handling.ResourceNotFoundException;
 import ru.geekbrains.happy.market.model.Product;
+import ru.geekbrains.happy.market.repositories.ProductRepository;
 import ru.geekbrains.happy.market.repositories.specifications.ProductSpecifications;
 import ru.geekbrains.happy.market.services.ProductService;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/products")

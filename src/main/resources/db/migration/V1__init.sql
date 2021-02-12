@@ -65,15 +65,21 @@ values
 
 create table orders (
     id                      bigserial primary key,
-    user_id                 bigint not null references users (id),
-    created_at              timestamp default current_timestamp
+    owner_id                bigint references users (id),
+    price                   int,
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
 );
 
 create table order_items (
     id                      bigserial primary key,
-    product_id              bigint not null references products (id),
-    order_id                bigint not null references orders (id),
+    order_id                bigint references orders (id),
+    product_id              bigint references products (id),
+    title                   varchar(255),
     quantity                int,
-    price_per_item          int,
-    price                   int
+    price_per_product       int,
+    price                   int,
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
 );
+

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.happy.market.beans.Cart;
 import ru.geekbrains.happy.market.dto.CartDto;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
@@ -22,11 +24,6 @@ public class CartController {
     @GetMapping("/add/{id}")
     public void addToCart(@PathVariable Long id) {
         cart.addToCart(id);
-    }
-
-    @GetMapping("/remove/{id}")
-    public void removeFromCart(@PathVariable Long id) {
-        cart.removeFromCart(id);
     }
 
     @GetMapping("/clear")

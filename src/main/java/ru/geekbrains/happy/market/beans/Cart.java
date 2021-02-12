@@ -43,20 +43,6 @@ public class Cart {
         recalculate();
     }
 
-    public void removeFromCart(Long id) {
-        for (OrderItem o : items) {
-            if (o.getProduct().getId().equals(id)) {
-                if (o.getQuantity() == 1) {
-                    items.remove(o);
-                } else {
-                    o.decrementQuantity();
-                }
-                recalculate();
-                return;
-            }
-        }
-    }
-
     public void clear() {
         items.clear();
         recalculate();
