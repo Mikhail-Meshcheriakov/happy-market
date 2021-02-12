@@ -114,11 +114,14 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         // }
 
         $scope.createOrder = function () {
-            $http.get(contextPath + '/api/v1/orders/create')
-                .then(function (response) {
-                    $scope.showMyOrders();
-                    $scope.showCart();
-                });
+            $http({
+                url: contextPath + '/api/v1/orders/create',
+                method: 'GET',
+                params: {address: $scope.address}
+            }).then(function (response) {
+                $scope.showMyOrders();
+                $scope.showCart();
+            });
         }
 
         // if ($localStorage.happyUsername) {
