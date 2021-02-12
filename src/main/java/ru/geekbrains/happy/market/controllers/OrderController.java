@@ -26,9 +26,9 @@ public class OrderController {
 
     @GetMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrderFromCart(Principal principal) {
+    public void createOrderFromCart(@RequestParam String address, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        orderService.createFromUserCart(user);
+        orderService.createFromUserCart(user, address);
     }
 
     @GetMapping
