@@ -8,6 +8,7 @@ import ru.geekbrains.happy.market.beans.Cart;
 import ru.geekbrains.happy.market.dto.CartDto;
 import ru.geekbrains.happy.market.dto.OrderDto;
 import ru.geekbrains.happy.market.exceptions_handling.ResourceNotFoundException;
+import ru.geekbrains.happy.market.model.Order;
 import ru.geekbrains.happy.market.model.User;
 import ru.geekbrains.happy.market.services.OrderService;
 import ru.geekbrains.happy.market.services.UserService;
@@ -24,11 +25,18 @@ public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
 
-    @GetMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrderFromCart(Principal principal) {
+    public OrderDto createOrderFromCart(Principal principal, @RequestParam String address) {
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        orderService.createFromUserCart(user);
+        Order order = orderService.createFromUserCart(user, address);
+        return new OrderDto(order);
+    }
+
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable Long id) {
+        Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        return new OrderDto(order);
     }
 
     @GetMapping

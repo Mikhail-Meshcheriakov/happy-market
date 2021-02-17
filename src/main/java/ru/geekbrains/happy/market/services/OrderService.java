@@ -22,11 +22,15 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final Cart cart;
 
-    public Order createFromUserCart(User user) {
-        Order order = new Order(cart, user);
+    public Order createFromUserCart(User user, String address) {
+        Order order = new Order(cart, user, address);
         order = orderRepository.save(order);
         cart.clear();
         return order;
+    }
+
+    public Optional<Order> findById(Long id) {
+        return orderRepository.findById(id);
     }
 
     public List<Order> findAllOrdersByOwnerName(String username) {

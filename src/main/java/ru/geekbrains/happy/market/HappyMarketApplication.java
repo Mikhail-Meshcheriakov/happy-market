@@ -11,8 +11,9 @@ import java.util.stream.Stream;
 @PropertySource("classpath:secured.properties")
 public class HappyMarketApplication {
 	// Домашнее задание:
-	// 1. Добавить к заказу возможность указания адреса доставки в виде строки
-	// 2. Сделать регистрацию пользователей через REST API
+	// 1. Сделайте профилировщик, который подсчитывает какой метод в проекте
+	// используется чаще всего
+	// 2. * Попробуйте подсчитать методы какого контроллера уходит больше всего времени
 
 	public static void main(String[] args) {
 		SpringApplication.run(HappyMarketApplication.class, args);
