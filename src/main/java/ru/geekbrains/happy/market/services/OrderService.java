@@ -1,11 +1,11 @@
 package ru.geekbrains.happy.market.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.happy.market.beans.Cart;
 import ru.geekbrains.happy.market.dto.ProductDto;
 import ru.geekbrains.happy.market.model.Order;
 import ru.geekbrains.happy.market.model.Product;
@@ -20,12 +20,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final Cart cart;
 
     public Order createFromUserCart(User user, String address) {
-        Order order = new Order(cart, user, address);
+        Order order = new Order(null, user, address); // todo NOT NULL
         order = orderRepository.save(order);
-        cart.clear();
         return order;
     }
 

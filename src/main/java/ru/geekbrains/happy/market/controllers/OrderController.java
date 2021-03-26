@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.happy.market.beans.Cart;
 import ru.geekbrains.happy.market.dto.CartDto;
 import ru.geekbrains.happy.market.dto.OrderDto;
 import ru.geekbrains.happy.market.exceptions_handling.ResourceNotFoundException;
@@ -42,5 +41,10 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> getCurrentUserOrders(Principal principal) {
         return orderService.findAllOrdersByOwnerName(principal.getName()).stream().map(OrderDto::new).collect(Collectors.toList());
+    }
+
+    @PostMapping("/js")
+    public void getCartFromJS(@RequestBody CartDto cartDto) {
+        System.out.println(cartDto);
     }
 }

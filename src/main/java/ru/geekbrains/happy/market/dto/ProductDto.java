@@ -4,9 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.geekbrains.happy.market.model.Product;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
-public class ProductDto {
+public class ProductDto implements Serializable {
     private Long id;
     private String title;
     private int price;

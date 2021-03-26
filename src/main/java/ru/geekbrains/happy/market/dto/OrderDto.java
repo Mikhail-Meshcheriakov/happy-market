@@ -2,7 +2,6 @@ package ru.geekbrains.happy.market.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.geekbrains.happy.market.beans.Cart;
 import ru.geekbrains.happy.market.model.Order;
 
 import java.util.List;
