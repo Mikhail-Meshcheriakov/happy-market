@@ -12,7 +12,9 @@ import java.util.stream.Stream;
 @PropertySource("classpath:secured.properties")
 public class HappyMarketApplication {
 	// Домашнее задание:
-	// - Прописать тесты для нашего приложения, какие считаете нужными
+	// - Поискать баги при работе с корзиной
+	// - Сдать текстовый отчет: багов нет, баги есть: вот такие
+	// - * Предложить починку этих багов
 
 	public static void main(String[] args) {
 		SpringApplication.run(HappyMarketApplication.class, args);

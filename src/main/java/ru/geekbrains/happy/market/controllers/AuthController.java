@@ -15,6 +15,9 @@ import ru.geekbrains.happy.market.beans.JwtTokenUtil;
 import ru.geekbrains.happy.market.dto.JwtRequest;
 import ru.geekbrains.happy.market.dto.JwtResponse;
 import ru.geekbrains.happy.market.exceptions_handling.MarketError;
+import ru.geekbrains.happy.market.model.Cart;
+import ru.geekbrains.happy.market.model.User;
+import ru.geekbrains.happy.market.services.CartService;
 import ru.geekbrains.happy.market.services.UserService;
 
 @RestController
@@ -23,6 +26,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final CartService cartService;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -33,6 +37,8 @@ public class AuthController {
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
+
+        cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
         return ResponseEntity.ok(new JwtResponse(token));
     }
 }

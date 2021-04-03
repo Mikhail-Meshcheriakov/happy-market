@@ -37,21 +37,26 @@
             });
     }
 
-    function run($rootScope, $http, $localStorage) {
-        if (!$localStorage.happyCart) {
-            $localStorage.happyCart = new Cart();
-        }
+    const contextPath = 'http://localhost:8189/happy';
 
+    function run($rootScope, $http, $localStorage) {
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
+
+        $http.post(contextPath + '/api/v1/cart')
+            .then(function successCallback(response) {
+                $localStorage.happyCartUuid = response.data;
+            });
     }
 })();
 
-angular.module('app').controller('indexController', function ($scope, $http, $localStorage) {
+angular.module('app').controller('indexController', function ($scope, $http, $localStorage, $location) {
     const contextPath = 'http://localhost:8189/happy';
 
     $scope.tryToAuth = function () {
+        $scope.user.cartId = $localStorage.happyCartUuid;
+
         $http.post(contextPath + '/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
@@ -69,6 +74,13 @@ angular.module('app').controller('indexController', function ($scope, $http, $lo
 
     $scope.tryToLogout = function () {
         $scope.clearUser();
+
+        $http.post(contextPath + '/api/v1/cart')
+            .then(function successCallback(response) {
+                $localStorage.happyCartUuid = response.data;
+            });
+
+        $location.path('/');
         if ($scope.user.username) {
             $scope.user.username = null;
         }

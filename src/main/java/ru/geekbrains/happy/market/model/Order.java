@@ -43,14 +43,15 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Order(String cart, User user, String address) {
+    public Order(Cart cart, User user, String address) {
         this.items = new ArrayList<>();
         this.owner = user;
         this.address = address;
-//        this.price = cart.getTotalPrice();
-//        cart.getItems().stream().forEach((oi) -> {
-//            oi.setOrder(this);
-//            items.add(oi);
-//        });
+        this.price = cart.getPrice();
+        for (CartItem ci : cart.getItems()) {
+            OrderItem oi = new OrderItem(ci);
+            oi.setOrder(this);
+            this.items.add(oi);
+        }
     }
 }
