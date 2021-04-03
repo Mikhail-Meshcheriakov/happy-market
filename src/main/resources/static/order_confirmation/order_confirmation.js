@@ -1,20 +1,19 @@
-angular.module('app').controller('orderConfirmationController', function ($scope, $http, $location) {
+angular.module('app').controller('orderConfirmationController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/happy';
 
-    $scope.cartContentRequest = function () {
-        $http({
-            url: contextPath + '/api/v1/cart',
-            method: 'GET'
-        }).then(function (response) {
-            $scope.Cart = response.data;
-        });
-    };
+    $scope.loadCart = function () {
+        $http.get(contextPath + '/api/v1/cart/' + $localStorage.happyCartUuid)
+            .then(function (response) {
+                $scope.happyUserCart = response.data;
+            });
+    }
 
     $scope.submitOrder = function () {
         $http({
             url: contextPath + '/api/v1/orders',
             method: 'POST',
             params: {
+                cartUuid: $localStorage.happyCartUuid,
                 address: $scope.order_info.address
             }
         }).then(function (response) {
@@ -22,5 +21,5 @@ angular.module('app').controller('orderConfirmationController', function ($scope
         });
     }
 
-    $scope.cartContentRequest();
+    $scope.loadCart();
 });

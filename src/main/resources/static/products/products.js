@@ -42,12 +42,17 @@ angular.module('app').controller('productsController', function ($scope, $http, 
     //         });
     // }
 
-    $scope.addToCartJS = function (productId) {
-        $http.get(contextPath + '/api/v1/products/' + productId)
-            .then(function (response) {
-                $localStorage.happyCart.add(response.data);
-                console.log($localStorage.happyCart);
-            });
+    $scope.addToCart = function (productId) {
+        $http({
+            url: contextPath + '/api/v1/cart/add',
+            method: 'POST',
+            params: {
+                product_id: productId,
+                uuid: $localStorage.happyCartUuid
+            }
+        }).then(function (response) {
+            console.log("OK");
+        });
     }
 
     $scope.createOrder = function () {
